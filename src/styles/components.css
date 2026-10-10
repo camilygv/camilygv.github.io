@@ -125,7 +125,8 @@
     display: grid;
     align-content: center;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
+    overflow-x: clip;
     padding-block: var(--space-m) 0;
 }
 
@@ -185,9 +186,10 @@
 
 @media (max-width: 639px) {
     .hero__goat {
-        width: 85vw;
-        right: -20%;
-        top: 25%;
+        width: 75vw;
+        right: 50%;
+        transform: translateX(50%);
+        top: 30%;
         opacity: 0.8;
     }
 }
