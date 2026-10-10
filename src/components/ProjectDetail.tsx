@@ -1,12 +1,30 @@
-import { useRef } from "react";
+import { useRef, useState, useCallback } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "../lib/gsap";
 import { Link } from "react-router-dom";
 import type { Project } from "../data/projects";
 import { asset } from "../lib/asset";
+import ImageModal from "./ImageModal";
 
 export default function ProjectDetail({ project }: { project: Project }) {
   const root = useRef<HTMLElement>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalIndex, setModalIndex] = useState(0);
+
+  const galleryImages = project.gallery.map((img) => ({
+    src: img.src,
+    alt: img.alt,
+    caption: img.caption,
+  }));
+
+  const openModal = useCallback((index: number) => {
+    setModalIndex(index);
+    setModalOpen(true);
+  }, []);
+
+  const closeModal = useCallback(() => {
+    setModalOpen(false);
+  }, []);
 
   useGSAP(
     () => {
@@ -55,9 +73,28 @@ export default function ProjectDetail({ project }: { project: Project }) {
             const isPng = img.src.toLowerCase().endsWith('.png');
             const className = `gallery__item gallery__item--${img.layout ?? "full"}${isPng ? " gallery__item--card" : ""}`;
             return (
-              <figure key={i} className={className}>
+              <figure
+                key={i}
+                className={className}
+                onClick={() => openModal(i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openModal(i);
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label={`Ver imagen ${i + 1} en grande: ${img.alt}`}
+              >
                 <img src={asset(img.src)} alt={img.alt} loading="lazy" />
                 {img.caption && <figcaption>{img.caption}</figcaption>}
+                <span className="gallery__zoom-hint" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </span>
               </figure>
             );
           })}
@@ -67,6 +104,13 @@ export default function ProjectDetail({ project }: { project: Project }) {
       <nav className="container" style={{ paddingBottom: "var(--space-l)" }}>
         <Link to="/" className="footer__top">← Volver a trabajos</Link>
       </nav>
+
+      <ImageModal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        images={galleryImages}
+        initialIndex={modalIndex}
+      />
     </article>
   );
 }
