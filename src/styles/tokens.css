@@ -1,0 +1,59 @@
+/* DESIGN PLAN
+   Concept: A raw, print-inspired portfolio that treats the browser like a poster wall — bold type, unexpected rhythms, and color that feels like spot inks on uncoated stock.
+   Palette: --paper (warm off-white), --ink (near-black with brown undertone), --signal (vermillion), --bloom (electric violet), --acid (chartreuse), --mist (subtle warm gray for surfaces)
+   Type: Display — "PP Neue Machina" (via Google Fonts fallback: Space Grotesk), weights 400/500/700. Text — "Space Grotesk", weights 400/500/700. Both chosen for their technical, industrial character that feels like specimen sheets.
+   Layout: Mobile-first single column. Desktop: asymmetric 12-column grid where cards break the rhythm (7/5, 4/8, 6/6 spans) with vertical offsets creating a poster-wall energy. No two cards align.
+   Signature moment: Hero title letters rise individually from a clip-path mask while a conic-gradient "ink blob" scales in behind them — the blob uses the three accent colors mixing like overlapping spot inks. On hover, each project card reveals its own accent color as a color-blend wash, not a generic overlay.
+*/
+
+:root {
+    /* Color */
+    --paper: #f6f1e7;
+    --ink: #14110f;
+    --signal: #ff4d2e;
+    --bloom: #7b5cff;
+    --acid: #d7ff3a;
+    --mist: #e4dccb;
+
+    --text: var(--ink);
+    --bg: var(--paper);
+    --accent: var(--signal);
+    --focus: var(--bloom);
+
+    /* Type */
+    --font-display:
+        "PP Neue Machina", "Space Grotesk", "Arial Black", sans-serif;
+    --font-text: "Space Grotesk", system-ui, sans-serif;
+
+    /* Fluid type scale */
+    --fs-hero: clamp(3.5rem, 13vw, 10rem);
+    --fs-h1: clamp(2.5rem, 7vw, 6rem);
+    --fs-h2: clamp(1.75rem, 4vw, 3.5rem);
+    --fs-h3: clamp(1.25rem, 2.2vw, 1.75rem);
+    --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.2rem);
+    --fs-small: 0.875rem;
+
+    --lh-tight: 0.9;
+    --lh-body: 1.6;
+
+    /* Spacing */
+    --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+    --space-s: clamp(1rem, 2vw, 1.5rem);
+    --space-m: clamp(2rem, 4vw, 3.5rem);
+    --space-l: clamp(4rem, 9vw, 9rem);
+    --gutter: clamp(1rem, 3.5vw, 3rem);
+    --max-width: 1600px;
+
+    /* Vertical rhythm: ONE value used for every section */
+    --section-y: clamp(3.5rem, 7vw, 6rem);
+    --header-h: 4.5rem;
+
+    /* Shape */
+    --radius: 0px;
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --dur-fast: 0.25s;
+    --dur-base: 0.6s;
+    --dur-slow: 1.2s;
+}

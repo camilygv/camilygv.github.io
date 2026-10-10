@@ -1,0 +1,87 @@
+.container {
+  width: min(100% - (var(--gutter) * 2), var(--max-width));
+  margin-inline: auto;
+}
+
+/* Only sections add vertical space. Top only, so two sections do not add up. */
+main > * {
+  margin: 0;
+}
+
+.section {
+  padding-block: 0;
+  padding-top: var(--section-y);
+}
+
+/* Work section needs less top space */
+#work.section {
+  background: var(--paper);
+  padding-top: calc(var(--section-y) * 0.4);
+}
+
+/* The first section right after the marquee should not add extra space */
+.marquee + .section {
+  padding-top: calc(var(--section-y) * 0.6);
+}
+
+/* The last section gets bottom space instead, so the footer sits close */
+.section:last-of-type {
+  padding-bottom: var(--section-y);
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-m) var(--gutter);
+}
+
+@media (min-width: 640px) {
+  .work-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .work-grid {
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gutter);
+    row-gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .work-grid > :nth-child(6n+1) { grid-column: span 7; }
+  .work-grid > :nth-child(6n+2) { grid-column: span 5; }
+  .work-grid > :nth-child(6n+3) { grid-column: span 4; }
+  .work-grid > :nth-child(6n+4) { grid-column: span 8; }
+  .work-grid > :nth-child(6n+5) { grid-column: span 6; }
+  .work-grid > :nth-child(6n+6) { grid-column: span 6; }
+
+  /* Optional stagger: a small, capped offset instead of vh values */
+  .work-grid > :nth-child(6n+2),
+  .work-grid > :nth-child(6n+4) {
+    margin-top: clamp(0rem, 4vw, 3rem);
+  }
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-m);
+}
+
+.gallery__item--full { grid-column: 1 / -1; }
+.gallery__item--wide { grid-column: 1 / -1; }
+
+@media (min-width: 900px) {
+  .gallery { grid-template-columns: repeat(2, 1fr); gap: var(--space-m) var(--gutter); }
+  .gallery__item--wide, .gallery__item--full { grid-column: 1 / -1; }
+}
+
+.safe-top { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+.strip { overflow: hidden; }
+.strip__track { display: flex; gap: var(--space-m); padding: var(--space-m) var(--gutter); width: max-content; }
+.strip__item { width: min(60vw, 720px); flex-shrink: 0; }
+
+@media (max-width: 1023px) {
+  .strip__track { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+  .strip__item { scroll-snap-align: center; }
+}
